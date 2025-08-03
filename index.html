@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tesori di latte - Queijos Artesanais Premium</title>
+    <!-- Ícone seguro (não rastreia visitantes) -->
+    <link rel="icon" type="image/png" href="https://imgur.com/odfvDQH.png" />
+    <style>
+        /* Mantendo todos os estilos originais */
+        .header-with-icon { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px;
+            padding: 8px 20px;
+        }
+        .app-icon { 
+            width: 55px;
+            height: 55px;
+            border-radius: 50%; 
+            overflow: hidden; 
+            border: 2px solid #ffd691;
+            box-shadow: 0 2px 12px rgba(212, 175, 55, 0.4);
+        }
+        .app-icon img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+        .header-with-icon h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #ffffff;
+        }
+        .header-with-icon.extra-compact { 
+            gap: 8px;
+            padding: 5px 20px;
+        }
+        .app-icon.extra-compact { 
+            width: 35px;
+            height: 35px;
+            border: 1px solid #ffd691;
+            box-shadow: 0 1px 8px rgba(212, 175, 55, 0.3);
+        }
+        .header-with-icon.extra-compact h1 {
+            font-size: 1.2rem;
+        }
+        @media (max-width: 768px) {
+            .header-with-icon { 
+                gap: 8px;
+                padding: 6px 15px;
+            }
+            .app-icon { 
+                width: 35px;
+                height: 35px;
+                border: 1px solid #d4af37;
+            }
+            .header-with-icon h1 {
+                font-size: 1.3rem;
+            }
+        }
+        :root {
+            --bg: #0f0f0f;
+            --bg-alt: #1c1c1c;
+            --bg-card: #222;
+            --text: #f5f5f5;
+            --text-muted: #999;
+            --accent: #cda96f;
+            --accent-dark: #b78b3e;
+            --accent-light: #e2c185;
+            --btn-bg: linear-gradient(135deg, #cda96f, #b78b3e);
+            --shadow: 0 8px 32px rgba(205, 169, 111, 0.15);
+            --border: rgba(205, 169, 111, 0.2);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        /* Header */
+        header {
+            background: rgba(28, 28, 28, 0.95);
+            backdrop-filter: blur(20px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            animation: slideDown 1s ease-out;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(205, 169, 111, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px var(--accent)); }
+            to { filter: drop-shadow(0 0 15px var(--accent-light)); }
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        nav a:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--btn-bg);
+            transition: width 0.3s ease;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(205, 169, 111, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .hero-content {
+            z-index: 2;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            text-shadow: 0 0 30px rgba(205, 169, 111, 0.4);
+            animation: fadeInUp 1.5s ease-out 0.5s both;
+        }
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1.5s ease-out 1s both;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            background: var(--btn-bg);
+            color: var(--bg);
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 1.5s ease-out 1.5s both;
+        }
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(205, 169, 111, 0.3);
+        }
+        /* Products Section */
+        .products {
+            padding: 6rem 2rem;
+            background: var(--bg-alt);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 4rem;
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(205, 169, 111, 0.3);
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(205, 169, 111, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .product-card:hover::before {
+            opacity: 1;
+            animation: rotate 4s linear infinite;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent);
+        }
+        .product-card img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+        .product-card h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+            font-size: 1.4rem;
+            position: relative;
+            z-index: 2;
+        }
+        .product-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        .price {
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            position: relative;
+            z-index: 2;
+        }
+        .price span {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+            margin-bottom: 0.5rem;
+        }
+        .buy-button {
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            background: var(--btn-bg);
+            border: none;
+            color: var(--bg);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        .buy-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(205, 169, 111, 0.3);
+        }
+        /* About Section */
+        .about {
+            padding: 6rem 2rem;
+            background: var(--bg);
+        }
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .about-text {
+            animation: fadeInLeft 1s ease-out;
+        }
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .about-text h2 {
+            text-align: left;
+            margin-bottom: 2rem;
+            color: var(--accent);
+        }
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+        .about-image {
+            text-align: center;
+            font-size: 8rem;
+            animation: fadeInRight 1s ease-out;
+        }
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            background: #111;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+        footer h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        /* Cart - mantendo todos os estilos do carrinho */
+        .cart-icon {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            background: var(--btn-bg);
+            color: var(--bg);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(205, 169, 111, 0.4);
+        }
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc2626;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 0.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-content {
+            background: var(--bg-alt);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 70vh;
+            overflow-y: auto;
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .cart-header h3 {
+            color: var(--accent);
+            font-size: 1.5em;
+        }
+        .close-cart {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close-cart:hover {
+            color: var(--accent-light);
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .cart-item-info {
+            flex: 1;
+        }
+        .cart-item-name {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .cart-item-price {
+            color: var(--text-muted);
+            font-size: 1.1em;
+        }
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .quantity-btn {
+            background: var(--btn-bg);
+            border: none;
+            color: var(--bg);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .quantity-btn:hover {
+            transform: scale(1.1);
+        }
+        .quantity {
+            color: var(--text);
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+        }
+        .remove-item {
+            background: #dc2626;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+        .remove-item:hover {
+            background: #b91c1c;
+        }
+        .cart-total {
+            text-align: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .cart-total h4 {
+            color: var(--accent);
+            font-size: 1.3em;
+        }
+        .cart-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .cart-actions button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .whatsapp-btn {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: white;
+        }
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        }
+        .clear-cart {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            color: white;
+        }
+        .clear-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+        }
+        .empty-cart {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 2rem;
+        }
+        /* Floating Elements */
+        .floating-cheese {
+            position: fixed;
+            font-size: 2em;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+            color: var(--accent);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+        .floating-cheese:nth-child(odd) {
+            animation-delay: -4s;
+        }
+        /* Loading state para produtos */
+        .products-loading {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-muted);
+        }
+        .products-loading::after {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.2em; }
+            .logo { font-size: 1.6em; }
+            nav { display: none; }
+            .about-content { grid-template-columns: 1fr; }
+            .product-grid { grid-template-columns: 1fr; }
+            .cart-content { width: 95%; }
+            .cart-actions { flex-direction: column; }
+        }
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-with-icon"> 
+            <div class="app-icon"> 
+                <img src="https://imgur.com/odfvDQH.png" alt="Tesori Di Latte"> 
+            </div> 
+            <h1>Tesori Di Latte</h1> 
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Início</a></li>
+                <li><a href="#produtos">Produtos</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>tesori di latte</h1>
+            <p>Os mais refinados queijos artesanais para o seu paladar</p>
+            <a href="#produtos" class="cta-button">Descobrir Nossos Tesouros</a>
+        </div>
+    </section>
+    <section class="products" id="produtos">
+        <h2 class="section-title fade-in">Nossos Queijos Premium</h2>
+        <div class="product-grid" id="productGrid">
+            <!-- Produtos serão carregados aqui dinamicamente -->
+            <div class="products-loading">Carregando produtos...</div>
+        </div>
+    </section>
+    <section class="about" id="sobre">
+        <div class="about-content">
+            <div class="about-text fade-in">
+                <h2 class="section-title">Nossa História</h2>
+                <p>
+                    A Tesori di Latte nasceu da paixão pela arte queijeira e pela busca incansável pelos melhores sabores do mundo. 
+                    Selecionamos cuidadosamente cada queijo, trabalhando diretamente com produtores artesanais que
+                </p>
+                <p>
+                    Acreditamos que cada queijo conta uma história — de tradição, terra e dedicação. Nosso compromisso é trazer 
+                    essas histórias diretamente para sua mesa, com qualidade, autenticidade e paixão.
+                </p>
+                <p>
+                    Visite nosso catálogo e descubra os verdadeiros tesouros do leite.
+                </p>
+            </div>
+            <div class="about-image">
+                🧀
+            </div>
+        </div>
+    </section>
+    <footer id="contato">
+        <div class="footer-content">
+            <div>
+                <h3>Contato</h3>
+                <p>📧 contato@tesoridilatte.com</p>
+                <p>📱 (11) 98765-4321</p>
+            </div>
+            <div>
+                <h3>Horários</h3>
+                <p>Seg-Sex: 9h às 18h</p>
+                <p>Sábado: 9h às 14h</p>
+            </div>
+            <div>
+                <h3>Localização</h3>
+                <p>São Paulo, SP</p>
+                <p>Entregamos para todo Brasil</p>
+            </div>
+        </div>
+        <p>&copy; 2025 Tesori di Latte. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Ícone do Carrinho -->
+    <button class="cart-icon" onclick="openCart()">
+        🛒
+        <div class="cart-count" style="display: none;">0</div>
+    </button>
+
+    <!-- Modal do Carrinho -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Seu Carrinho</h3>
+                <button class="close-cart" onclick="closeCart()">×</button>
+            </div>
+            <div id="cartItems">
+                <!-- Itens do carrinho serão carregados aqui -->
+                <div class="empty-cart">Seu carrinho está vazio.</div>
+            </div>
+            <div class="cart-total">
+                <h4>Total: <span id="cartTotal">R$ 0,00</span></h4>
+            </div>
+            <div class="cart-actions">
+                <button class="whatsapp-btn" onclick="checkout()">Enviar pelo WhatsApp</button>
+                <button class="clear-cart" onclick="clearCart()">Limpar Carrinho</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script principal -->
+    <script>
+        function loadProducts() {
+            const productGrid = document.getElementById('productGrid');
+            productGrid.innerHTML = '<div class="products-loading">Carregando produtos...</div>';
+
+            setTimeout(() => {
+                const products = JSON.parse(localStorage.getItem('tesori_products') || '[]');
+
+                if (products.length === 0) {
+                    productGrid.innerHTML = `
+                        <div style="text-align: center; color: var(--text-muted); padding: 2rem; grid-column: 1/-1;">
+                            <p>Nenhum produto disponível no momento.</p>
+                        </div>`;
+                    return;
+                }
+
+                const productsHTML = products.map(product => `
+                    <div class="product-card fade-in">
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <div class="price">
+                            ${product.originalPrice ? `<span>R$ ${product.originalPrice.toFixed(2).replace('.', ',')}</span>` : ''}
+                            R$ ${product.price.toFixed(2).replace('.', ',')}
+                        </div>
+                        <button class="buy-button" onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.image}')">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                `).join('');
+
+                productGrid.innerHTML = productsHTML;
+
+                setTimeout(() => {
+                    document.querySelectorAll('.fade-in').forEach(el => {
+                        if (isInViewport(el)) el.classList.add('visible');
+                    });
+                }, 100);
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            }, 500);
+        }
+
+        function isInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                   rect.bottom >= 0;
+        }
+
+        function addToCart(id, name, price, image) {
+            const cart = JSON.parse(localStorage.getItem('tesori_cart') || '[]');
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ id, name, price, image, quantity: 1 });
+            }
+            localStorage.setItem('tesori_cart', JSON.stringify(cart));
+            updateCartIcon();
+            alert(`${name} adicionado ao carrinho!`);
+        }
+
+        function updateCartIcon() {
+            const cart = JSON.parse(localStorage.getItem('tesori_cart') || '[]');
+            const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) {
+                cartCount.textContent = total;
+                cartCount.style.display = total > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function openCart() {
+            const modal = document.getElementById('cartModal');
+            const cartItems = document.getElementById('cartItems');
+            const cart = JSON.parse(localStorage.getItem('tesori_cart') || '[]');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="empty-cart">Seu carrinho está vazio.</div>';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)">−</button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+                            <button class="remove-item" onclick="removeItem('${item.id}')">Remover</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            updateCartTotal();
+            modal.style.display = 'flex';
+        }
+
+        function updateCartTotal() {
+            const cart = JSON.parse(localStorage.getItem('tesori_cart') || '[]');
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cartTotal').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        function updateQuantity(id, change) {
+            const cart = JSON.parse(localStorage.getItem('tesori_cart') || '[]');
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeItem(id);
+                } else {
+                    localStorage.setItem('tesori_cart', JSON.stringify(cart));
+                    openCart();
+                }
+            }
+        }
+
+        function removeItem(id) {
+            const cart = JSON.parse(localStorage.getItem('tesori_cart') || '[]');
+            const updated = cart.filter(item => item.id !== id);
+            localStorage.setItem('tesori_cart', JSON.stringify(updated));
+            openCart();
+            updateCartIcon();
+        }
+
+        function clearCart() {
+            if (confirm('Deseja realmente limpar o carrinho?')) {
+                localStorage.removeItem('tesori_cart');
+                openCart();
+                updateCartIcon();
+            }
+        }
+
+        function checkout() {
+            const cart = JSON.parse(localStorage.getItem('tesori_cart') || '[]');
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio.');
+                return;
+            }
+            let message = 'Olá! Gostaria de pedir:\n\n';
+            cart.forEach(item => {
+                message += `• ${item.name} x${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}\n`;
+            });
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `\nTotal: R$ ${total.toFixed(2).replace('.', ',')}`;
+            const url = `https://wa.me/5511987654321?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            updateCartIcon();
+            document.addEventListener('click', (e) => {
+                const modal = document.getElementById('cartModal');
+                if (e.target === modal) modal.style.display = 'none';
+            });
+            window.addEventListener('focus', updateCartIcon);
+        });
+    </script>
+</body>
+</html>
