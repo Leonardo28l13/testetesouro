@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Tesori di Latte</title>
+    <style>
+        :root {
+            --bg: #0f0f0f;
+            --bg-alt: #1c1c1c;
+            --bg-card: #222;
+            --text: #f5f5f5;
+            --text-muted: #999;
+            --accent: #cda96f;
+            --accent-dark: #b78b3e;
+            --accent-light: #e2c185;
+            --btn-bg: linear-gradient(135deg, #cda96f, #b78b3e);
+            --shadow: 0 8px 32px rgba(205, 169, 111, 0.15);
+            --border: rgba(205, 169, 111, 0.2);
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--bg-alt);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .user-info {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-section {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-alt);
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(205, 169, 111, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: block;
+            padding: 1rem;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-alt);
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--accent);
+            background: rgba(205, 169, 111, 0.05);
+        }
+
+        .file-upload-label.has-file {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .image-preview {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .image-preview img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--btn-bg);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(205, 169, 111, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--success), #059669);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, var(--error), #dc2626);
+            color: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .product-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .product-item h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .product-actions button {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert.success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: var(--accent);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .header { padding: 1rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .tabs { flex-direction: column; }
+            .header-actions { flex-direction: column; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🧀 tesori di latte - Admin</div>
+        <div class="header-actions">
+            <div class="user-info">Bem-vindo, Admin</div>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">Painel Administrativo</h1>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab" onclick="switchTab('add-product')">Adicionar Produto</button>
+            <button class="tab" onclick="switchTab('manage-products')">Gerenciar Produtos</button>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="tab-content active">
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="totalProducts">0</h3>
+                    <p>Total de Produtos</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="avgPrice">R$ 0,00</h3>
+                    <p>Preço Médio</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="lastUpdate">Nunca</h3>
+                    <p>Última Atualização</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Adicionar Produto -->
+        <div id="add-product" class="tab-content">
+            <div class="alert success" id="successAlert">
+                Produto adicionado com sucesso!
+            </div>
+            <div class="alert error" id="errorAlert">
+                Erro ao adicionar produto. Verifique os dados.
+            </div>
+
+            <div class="form-section">
+                <h3>Adicionar Novo Produto</h3>
+                <form id="productForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="productName">Nome do Produto *</label>
+                            <input type="text" id="productName" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productPrice">Preço (R$) *</label>
+                            <input type="number" id="productPrice" name="price" step="0.01" min="0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productOriginalPrice">Preço Original (R$)</label>
+                            <input type="number" id="productOriginalPrice" name="originalPrice" step="0.01" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productCategory">Categoria</label>
+                            <select id="productCategory" name="category">
+                                <option value="queijos-brasileiros">Queijos Brasileiros</option>
+                                <option value="queijos-franceses">Queijos Franceses</option>
+                                <option value="queijos-italianos">Queijos Italianos</option>
+                                <option value="queijos-especiais">Queijos Especiais</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productDescription">Descrição *</label>
+                        <textarea id="productDescription" name="description" required placeholder="Descreva o produto, suas características e origem..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productImage">Imagem do Produto *</label>
+                        <div class="file-upload">
+                            <input type="file" id="productImage" name="image" accept="image/*" required>
+                            <label for="productImage" class="file-upload-label" id="fileUploadLabel">
+                                📁 Clique para selecionar uma imagem<br>
+                                <small>Formatos: JPG, PNG, WEBP (máx. 5MB)</small>
+                            </label>
+                        </div>
+                        <div class="image-preview" id="imagePreview"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Adicionar Produto</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Gerenciar Produtos -->
+        <div id="manage-products" class="tab-content">
+            <div class="form-section">
+                <h3>Produtos Cadastrados</h3>
+                <div class="products-grid" id="productsGrid">
+                    <!-- Produtos serão carregados aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verificar autenticação
+        function checkAuth() {
+            const adminAuth = sessionStorage.getItem('adminAuth');
+            const loginTime = sessionStorage.getItem('adminLoginTime');
+            
+            if (!adminAuth || adminAuth !== 'authenticated') {
+                window.location.href = 'admin-login.html';
+                return false;
+            }
+
+            if (loginTime) {
+                const now = Date.now();
+                const sessionDuration = 2 * 60 * 60 * 1000; // 2 horas
+                
+                if (now - parseInt(loginTime) > sessionDuration) {
+                    logout();
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Logout
+        function logout() {
+            sessionStorage.removeItem('adminAuth');
+            sessionStorage.removeItem('adminLoginTime');
+            window.location.href = 'admin-login.html';
+        }
+
+        // Alternar abas
+        function switchTab(tabName) {
+            // Remover classe active de todas as abas
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Ativar aba selecionada
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+
+            if (tabName === 'manage-products') {
+                loadProducts();
+            } else if (tabName === 'dashboard') {
+                updateDashboard();
+            }
+        }
+
+        // Gerenciar produtos em memória
+        let products = JSON.parse(localStorage.getItem('tesori_products') || '[]');
+
+        // Preview de imagem
+        document.getElementById('productImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const label = document.getElementById('fileUploadLabel');
+            const preview = document.getElementById('imagePreview');
+
+            if (file) {
+                // Validar tamanho
+                if (file.size > 5 * 1024 * 1024) {
+                    showAlert('error', 'Imagem muito grande. Máximo 5MB.');
+                    return;
+                }
+
+                // Validar tipo
+                if (!file.type.startsWith('image/')) {
+                    showAlert('error', 'Arquivo deve ser uma imagem.');
+                    return;
+                }
+
+                label.classList.add('has-file');
+                label.innerHTML = `✅ ${file.name}<br><small>Imagem selecionada</small>`;
+
+                // Mostrar preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                label.classList.remove('has-file');
+                label.innerHTML = '📁 Clique para selecionar uma imagem<br><small>Formatos: JPG, PNG, WEBP (máx. 5MB)</small>';
+                preview.innerHTML = '';
+            }
+        });
+
+        // Adicionar produto
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const imageFile = document.getElementById('productImage').files[0];
+
+            if (!imageFile) {
+                showAlert('error', 'Selecione uma imagem para o produto.');
+                return;
+            }
+
+            // Converter imagem para base64
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const product = {
+                    id: Date.now().toString(),
+                    name: formData.get('name'),
+                    price: parseFloat(formData.get('price')),
+                    originalPrice: formData.get('originalPrice') ? parseFloat(formData.get('originalPrice')) : null,
+                    category: formData.get('category'),
+                    description: formData.get('description'),
+                    image: e.target.result,
+                    createdAt: new Date().toISOString()
+                };
+
+                products.push(product);
+                localStorage.setItem('tesori_products', JSON.stringify(products));
+
+                showAlert('success', 'Produto adicionado com sucesso!');
+                document.getElementById('productForm').reset();
+                document.getElementById('fileUploadLabel').classList.remove('has-file');
+                document.getElementById('fileUploadLabel').innerHTML = '📁 Clique para selecionar uma imagem<br><small>Formatos: JPG, PNG, WEBP (máx. 5MB)</small>';
+                document.getElementById('imagePreview').innerHTML = '';
+
+                updateDashboard();
+            };
+            reader.readAsDataURL(imageFile);
+        });
+
+        // Mostrar alertas
+        function showAlert(type, message) {
+            const alert = document.getElementById(type === 'success' ? 'successAlert' : 'errorAlert');
+            alert.textContent = message;
+            alert.style.display = 'block';
+
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // Carregar produtos
+        function loadProducts() {
+            const grid = document.getElementById('productsGrid');
+            
+            if (products.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; color: var(--text-muted); grid-column: 1/-1;">Nenhum produto cadastrado ainda.</p>';
+                return;
+            }
+
+            grid.innerHTML = products.map(product => `
+                <div class="product-item">
+                    <img src="${product.image}" alt="${product.name}">
+                    <h4>${product.name}</h4>
+                    <p>${product.description.substring(0, 100)}...</p>
+                    <p><strong>R$ ${product.price.toFixed(2).replace('.', ',')}</strong></p>
+                    <div class="product-actions">
+                        <button class="btn-danger" onclick="deleteProduct('${product.id}')">Excluir</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Deletar produto
+        function deleteProduct(id) {
+            if (confirm('Tem certeza que deseja excluir este produto?')) {
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('tesori_products', JSON.stringify(products));
+                loadProducts();
+                updateDashboard();
+            }
+        }
+
+        // Atualizar dashboard
+        function updateDashboard() {
+            const totalProducts = products.length;
+            const avgPrice = products.length > 0 ? 
+                products.reduce((sum, p) => sum + p.price, 0) / products.length : 0;
+            const lastUpdate = products.length > 0 ? 
+                new Date(Math.max(...products.map(p => new Date(p.createdAt)))).toLocaleDateString('pt-BR') : 'Nunca';
+
+            document.getElementById('totalProducts').textContent = totalProducts;
+            document.getElementById('avgPrice').textContent = `R$ ${avgPrice.toFixed(2).replace('.', ',')}`;
+            document.getElementById('lastUpdate').textContent = lastUpdate;
+        }
+
+        // Exportar produtos para HTML
+        function exportToHTML() {
+            if (products.length === 0) {
+                alert('Nenhum produto para exportar!');
+                return;
+            }
+
+            const productsHTML = products.map(product => `
+            <div class="product-card fade-in">
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <div class="price">
+                    ${product.originalPrice ? `<span>R$ ${product.originalPrice.toFixed(2).replace('.', ',')}</span>` : ''}
+                    R$ ${product.price.toFixed(2).replace('.', ',')}
+                </div>
+                <button class="buy-button" onclick="addToCart('${product.name}', ${product.price})">Adicionar ao Carrinho</button>
+            </div>`).join('');
+
+            // Criar modal para mostrar código
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.8); z-index: 9999; display: flex;
+                align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: var(--bg-card); padding: 2rem; border-radius: 15px; 
+                           max-width: 80%; max-height: 80%; overflow-y: auto; border: 1px solid var(--border);">
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">Código HTML dos Produtos</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                        Copie este código e substitua a seção de produtos no seu HTML principal:
+                    </p>
+                    <textarea readonly style="width: 100%; height: 400px; padding: 1rem; 
+                                            background: var(--bg-alt); color: var(--text); 
+                                            border: 1px solid var(--border); border-radius: 8px;">${productsHTML}</textarea>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                        <button onclick="copyToClipboard('${productsHTML.replace(/'/g, "\\'")}'); this.parentElement.parentElement.parentElement.remove();" 
+                                class="btn btn-success">Copiar Código</button>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove();" 
+                                class="btn btn-danger">Fechar</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Copiar para clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Código copiado para a área de transferência!');
+            });
+        }
+
+        // Inicialização
+        window.addEventListener('load', function() {
+            if (!checkAuth()) return;
+            
+            updateDashboard();
+            
+            // Adicionar botão de exportar no dashboard
+            const dashboard = document.getElementById('dashboard');
+            const exportSection = document.createElement('div');
+            exportSection.className = 'form-section';
+            exportSection.innerHTML = `
+                <h3>Exportar Produtos</h3>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                    Exporte o código HTML dos produtos para usar no site principal.
+                </p>
+                <button onclick="exportToHTML()" class="btn btn-success">
+                    📤 Exportar HTML dos Produtos
+                </button>
+            `;
+            dashboard.appendChild(exportSection);
+        });
+
+        // Auto-save do formulário
+        const formInputs = ['productName', 'productPrice', 'productOriginalPrice', 'productCategory', 'productDescription'];
+        formInputs.forEach(inputId => {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.addEventListener('input', () => {
+                    const formData = {};
+                    formInputs.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) formData[id] = el.value;
+                    });
+                    localStorage.setItem('tesori_form_draft', JSON.stringify(formData));
+                });
+            }
+        });
+
+        // Restaurar rascunho do formulário
+        function restoreFormDraft() {
+            const draft = localStorage.getItem('tesori_form_draft');
+            if (draft) {
+                const formData = JSON.parse(draft);
+                formInputs.forEach(inputId => {
+                    const input = document.getElementById(inputId);
+                    if (input && formData[inputId]) {
+                        input.value = formData[inputId];
+                    }
+                });
+            }
+        }
+
+        // Limpar rascunho após envio bem-sucedido
+        document.getElementById('productForm').addEventListener('submit', function() {
+            setTimeout(() => {
+                localStorage.removeItem('tesori_form_draft');
+            }, 100);
+        });
+
+        // Restaurar rascunho ao carregar
+        setTimeout(restoreFormDraft, 100);
+    </script>
+</body>
+</html>
